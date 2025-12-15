@@ -1,52 +1,100 @@
-<!doctype html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+<!DOCTYPE html>
+<!-- saved from url=(0086)file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#projects -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Lucas Salon — Portfolio BTS SIO SISR</title>
-  <link rel="stylesheet" href="styles.css" />
-  <meta name="description" content="Portfolio de Lucas Salon, étudiant passionné de réseau en BTS SIO SISR — administration, sécurité, projets réseau." />
+  <meta name="description" content="Portfolio de Lucas Salon, étudiant passionné de réseau en BTS SIO SISR — administration, sécurité, projets réseau.">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <header class="nav" style="padding:0;backdrop-filter:blur(8px);background:rgba(20,10,30,0.85);box-shadow:0 2px 16px #0002;position:sticky;top:0;z-index:100;">
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:2em;">
-      <div style="display:flex;align-items:center;gap:1.2em;">
-        <a class="logo" href="#hero" style="font-size:1.3rem;letter-spacing:2px;font-weight:900;color:var(--accent);text-decoration:none;">LS</a>
-        <span style="color:#fff;font-weight:600;opacity:.7;font-size:.95em;">Lucas Salon</span>
+<body class="">
+  <header class="nav" role="banner">
+    <div class="container nav-container">
+      <div class="nav-logo-group">
+        <a class="logo btn outline" href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#hero" style="
+    right: 120px;
+">Lucas Salon</a>
       </div>
-      <nav class="main-nav" style="flex:1;display:flex;justify-content:center;gap:2.5em;">
-        <a href="#about" style="white-space:nowrap;">À propos</a>
-        <a href="#skills">Compétences</a>
-        <a href="#projects">Projets</a>
-        <a href="#parcours">Parcours</a>
-        <a href="#stages">Stages</a>
-        <a href="#veille">Veille</a>
+      <nav class="main-nav" id="mainNav" aria-label="Navigation principale">
+        <a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#about" style="white-space:nowrap;">À propos</a>
+        <a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#projetpro" style="white-space:nowrap;">Projet professionnel</a>
+        <a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#skills">Compétences</a>
+        <a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#projects">Projets</a>
+        <a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#parcours">Parcours</a>
+        <a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#stages">Stages</a>
+        <a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#veille">Veille</a>
       </nav>
-      <div style="display:flex;align-items:center;gap:1.2em;">
-        <a href="#contact" class="btn outline" style="padding:.5em 1.2em;font-size:1em;">Contact</a>
-        <button id="burger" aria-label="Menu" style="display:none;background:none;border:none;color:var(--accent);font-size:2em;cursor:pointer;">
-          <span>☰</span>
+      <div class="nav-actions">
+        <a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#contact" class="btn outline nav-contact" style="
+    left: 120px;
+">Contact</a>
+        <button id="burger" class="burger" aria-label="Menu" aria-controls="mainNav" aria-expanded="false" style="display: none;">
+          <span class="burger-bar"></span>
+          <span class="burger-bar"></span>
+          <span class="burger-bar"></span>
         </button>
       </div>
     </div>
   </header>
   <script>
-    // Menu burger responsive (affichage mobile)
+    // Navbar responsive, accessibilité, animation burger premium
     const burger = document.getElementById('burger');
-    const nav = document.querySelector('.main-nav');
+    const nav = document.getElementById('mainNav');
+    const navLinks = nav.querySelectorAll('a');
+    let navOpen = false;
+    const BREAKPOINT = 1200; // Utiliser le même breakpoint que le CSS
     function toggleNav() {
-      nav.classList.toggle('open');
+      navOpen = !navOpen;
+      burger.classList.toggle('open', navOpen);
+      nav.classList.toggle('open', navOpen);
+      document.body.classList.toggle('nav-open', navOpen);
+      burger.setAttribute('aria-expanded', navOpen);
+      if(navOpen) {
+        navLinks[0].focus();
+      } else {
+        burger.focus();
+      }
     }
-    burger && burger.addEventListener('click', toggleNav);
+    burger.addEventListener('click', toggleNav);
+    // Fermer menu avec Echap
+    window.addEventListener('keydown', e => {
+      if(navOpen && e.key === 'Escape') toggleNav();
+    });
+    // Navigation clavier dans le menu mobile (flèches)
+    nav.addEventListener('keydown', e => {
+      if(!navOpen) return;
+      const focusable = [...navLinks];
+      const idx = focusable.indexOf(document.activeElement);
+      if(e.key === 'ArrowDown') {
+        e.preventDefault();
+        focusable[(idx+1)%focusable.length].focus();
+      } else if(e.key === 'ArrowUp') {
+        e.preventDefault();
+        focusable[(idx-1+focusable.length)%focusable.length].focus();
+      }
+    });
+    // Fermer le menu au clic sur un lien (mobile)
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if(window.innerWidth < BREAKPOINT && nav.classList.contains('open')) toggleNav();
+      });
+    });
     // Affichage du burger en mobile
     function handleResize() {
-      if(window.innerWidth < 900) {
-        burger.style.display = 'block';
-        nav.style.display = nav.classList.contains('open') ? 'flex' : 'none';
+      if(window.innerWidth < BREAKPOINT) {
+        burger.style.display = 'flex';
+        nav.classList.remove('open');
+        burger.classList.remove('open');
+        document.body.classList.remove('nav-open');
+        navOpen = false;
+        burger.setAttribute('aria-expanded', 'false');
       } else {
         burger.style.display = 'none';
-        nav.style.display = 'flex';
         nav.classList.remove('open');
+        burger.classList.remove('open');
+        document.body.classList.remove('nav-open');
+        navOpen = false;
+        burger.setAttribute('aria-expanded', 'false');
       }
     }
     window.addEventListener('resize', handleResize);
@@ -54,21 +102,21 @@
   </script>
 
   <section id="hero" class="hero">
-    <div class="container hero-grid" style="align-items:center;justify-content:center;">
+    <div class="container hero-grid">
       <div style="text-align:center;">
         <span style="display:inline-block;background:var(--accent);color:#fff;padding:.4em 1.2em;border-radius:2em;font-weight:700;box-shadow:0 2px 8px #a259f71a;font-size:1.1em;letter-spacing:1px;margin-bottom:1.2em;">Lucas Salon</span>
-        <h1 style="margin-top:0;font-size:2.1rem;letter-spacing:1.5px;">Étudiant BTS SIO <span style="color:var(--accent);">SISR</span></h1>
-        <p class="lead">Passionné par le <b>réseau</b>, la <b>cybersécurité</b> et l'administration système.<br>Mon objectif : <span style="color:var(--accent)">administrateur réseaux infrastructures</span>.<br>Curieux, motivé, prêt à relever tous les défis IT !</p>
-        <div class="cta" style="margin-top:2em;">
-          <a href="#projects" class="btn">Voir mes projets</a>
-          <a href="[lien_vers_cv.pdf]" class="btn outline" download>Télécharger CV</a>
+        <h1>Étudiant BTS SIO <span style="color:var(--accent);">SISR</span></h1>
+        <p class="lead">Passionné par le <b>réseau</b>, la <b>cybersécurité</b> et l'administration système. Mon objectif : <span style="color:var(--accent)">administrateur réseaux infrastructures</span>. Curieux, motivé, prêt à relever tous les défis IT !</p>
+        <div class="cta">
+          <a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#projects" class="btn">Voir mes projets</a>
+          <a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/[lien_vers_cv.pdf]" class="btn outline" download="">Télécharger CV</a>
         </div>
       </div>
-      <div class="hero-card" style="display:flex;flex-direction:column;align-items:center;gap:1.2em;">
-        <img src="https://placehold.co/220x220?text=Lucas+Salon" alt="Photo de Lucas Salon" style="border-radius:50%;width:220px;height:220px;object-fit:cover;border:4px solid var(--accent);box-shadow:0 0 16px #a259f71a;background:#181028;" />
+      <div class="hero-card">
+        <img src="./oeoeo_files/220x220" alt="Photo de Lucas Salon">
         <div style="display:flex;gap:.7em;justify-content:center;">
-          <a href="mailto:lucas.salon@example.com" title="Mail" style="color:var(--accent);font-size:1.7em;"><span>📧</span></a>
-          <a href="#" title="LinkedIn" style="color:var(--accent);font-size:1.7em;"><span>💼</span></a>
+          <a href="mailto:lucas.salon@example.com" title="Mail"><span>📧</span></a>
+          <a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#" title="LinkedIn"><span>💼</span></a>
         </div>
       </div>
     </div>
@@ -77,19 +125,56 @@
   <main class="container">
     <section id="about" class="card">
       <h2>💭 À propos de moi</h2>
-      <p>Je suis <b>Lucas Salon</b>, étudiant en <b>1ʳᵉ année</b> de BTS SIO SISR à Gaston Berger (Lille).<br>J’aime tout ce qui touche au <b>réseau</b>, à la <b>sécurité informatique</b> et à l’administration de serveurs.<br>Mon ambition : <span style="color:var(--accent)">travailler dans le domaine du réseau</span> et assurer la sécurité des infrastructures.</p>
-      <ul style="margin-top:1.2em;">
+      <p>Je suis <b>Lucas Salon</b>, étudiant en <b>1ʳᵉ année</b> de BTS SIO SISR à Gaston Berger (Lille), passionné par le <b>réseau</b>, la <b>sécurité informatique</b> et l’administration de serveurs. Mon ambition : <span style="color:var(--accent)">travailler dans le domaine du réseau</span> et assurer la sécurité des infrastructures.</p>
+      <ul>
         <li><b>Localisation :</b> Lille</li>
         <li><b>Formation :</b> BTS SIO SISR — Gaston Berger (1ʳᵉ année)</li>
         <li><b>Mail :</b> <a href="mailto:lucas.salon@example.com">lucas.salon@example.com</a></li>
       </ul>
     </section>
-
     <section id="projetpro" class="card">
       <h2>🏢 Projet professionnel</h2>
       <p>Je vise le métier d’<b>administrateur réseaux infrastructures</b>. Après le BTS, je souhaite poursuivre en licence pro puis en alternance pour acquérir de l’expérience et confronter mes connaissances à la réalité du terrain. Mon objectif : <span style="color:var(--accent)">participer à la sécurité et à l’exploitation des réseaux informatiques</span>.</p>
     </section>
-
+    <section id="skills" class="card">
+      <h2>🔧 Compétences</h2>
+      <div class="skills-grid">
+        <div>
+          <h3>Réseau &amp; Systèmes</h3>
+          <p>Windows Server, Linux, VLAN, DHCP, DNS, virtualisation, sécurité réseau</p>
+        </div>
+        <div>
+          <h3>Développement</h3>
+          <p>Niveau simple en JavaScript, Python, HTML</p>
+        </div>
+        <div>
+          <h3>Outils</h3>
+          <p>VirtualBox, Packet Tracer, Putty, Active Directory</p>
+        </div>
+        <div>
+          <h3>Certifications</h3>
+          <p>PIX, ANSSI SecNumAcad</p>
+        </div>
+      </div>
+    </section>
+    <section id="projects" class="card" style="background:linear-gradient(120deg,#1a1333cc 60%,#2d1a4dcc 100%);box-shadow:0 4px 32px #a259f71a,0 1.5px 0 #a259f7a0 inset;border-radius:1.5em;padding:2.5em 2em 2em 2em;margin-top:2.5em;">
+      <h2 style="color:var(--accent);font-size:2em;margin-bottom:1em;letter-spacing:1px;text-align:center;text-shadow:0 2px 8px #a259f733;">🚀 Projets</h2>
+      <p style="text-align:center;color:#cfcbe6;font-size:1.1em;margin-bottom:2em;">Voici quelques projets réalisés durant ma formation ou à titre personnel. (Section à compléter)</p>
+      <div style="display:flex;flex-wrap:wrap;gap:2em;justify-content:center;">
+        <div style="background:rgba(30,20,50,0.85);border-radius:1em;padding:1.5em 1.2em;min-width:220px;max-width:320px;box-shadow:0 2px 16px #a259f71a;backdrop-filter:blur(2px);border:1.5px solid #a259f733;">
+          <h3 style="color:var(--accent);font-size:1.15em;margin-bottom:.5em;">Projet 1</h3>
+          <p style="color:#e0def7;">[Description ou titre du projet]</p>
+        </div>
+        <div style="background:rgba(30,20,50,0.85);border-radius:1em;padding:1.5em 1.2em;min-width:220px;max-width:320px;box-shadow:0 2px 16px #a259f71a;backdrop-filter:blur(2px);border:1.5px solid #a259f733;">
+          <h3 style="color:var(--accent);font-size:1.15em;margin-bottom:.5em;">Projet 2</h3>
+          <p style="color:#e0def7;">[Description ou titre du projet]</p>
+        </div>
+        <div style="background:rgba(30,20,50,0.85);border-radius:1em;padding:1.5em 1.2em;min-width:220px;max-width:320px;box-shadow:0 2px 16px #a259f71a;backdrop-filter:blur(2px);border:1.5px solid #a259f733;">
+          <h3 style="color:var(--accent);font-size:1.15em;margin-bottom:.5em;">Projet 3</h3>
+          <p style="color:#e0def7;">[Description ou titre du projet]</p>
+        </div>
+      </div>
+    </section>
     <section id="parcours" class="card">
       <h2>🎓 Parcours scolaire</h2>
       <div class="timeline">
@@ -110,14 +195,13 @@
         </div>
       </div>
     </section>
-
     <section id="stages" class="card">
-      <h2>💼 Stages & Expériences</h2>
+      <h2>💼 Stages &amp; Expériences</h2>
       <div class="timeline">
         <div class="item">
           <h4>Stage Tekmicro</h4>
           <span class="date">2025 (6 semaines)</span>
-          <p>Relation client, réparations informatiques, support utilisateurs,</p>
+          <p>Relation client, réparations informatiques, support utilisateurs</p>
         </div>
         <div class="item">
           <h4>Stage Sylvia Terrade</h4>
@@ -131,42 +215,17 @@
         </div>
       </div>
     </section>
-
-    <section id="skills" class="card">
-      <h2>🔧 Compétences</h2>
-      <div class="skills-grid">
-        <div>
-          <h3>Réseau & Systèmes</h3>
-          <p>Windows Server, Linux, VLAN, DHCP, DNS, virtualisation, sécurité réseau</p>
-        </div>
-        <div>
-          <h3>Développement</h3>
-          <p>Niveau simple en JavaScript, Python, HTML</p>
-        </div>
-        <div>
-          <h3>Outils</h3>
-          <p>VirtualBox, Packet Tracer, Putty, Active Directory</p>
-        </div>
-        <div>
-          <h3>Certifications</h3>
-          <p>PIX, ANSSI SecNumAcad,</p>
-        </div>
-      </div>
-    </section>
-
     <section id="veille" class="card">
       <h2>💻 Veille technologique</h2>
       <p>Ma veille technologique porte sur <b>l'USB over IP</b> : une technologie permettant de partager des périphériques USB à distance via un réseau IP. Cela permet d'accéder à des clés USB, imprimantes, dongles ou autres périphériques comme s'ils étaient branchés localement, même à travers Internet ou un réseau d'entreprise. J'ai étudié les usages, les solutions logicielles, les enjeux de sécurité et les cas d'usage en entreprise.</p>
       <ul>
-        <li><a href="#">Rapport de veille : USB over IP (2025)</a></li>
+        <li><a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#">Rapport de veille : USB over IP (2025)</a></li>
       </ul>
     </section>
-
     <section id="bts" class="card">
       <h2>🎓 Qu’est-ce que le BTS SIO SISR ?</h2>
       <p>L’acronyme SISR signifie « Solutions d’infrastructure, systèmes et réseaux ». L’option SISR est destinée aux étudiants qui s’orientent vers les métiers liés à la conception, la maintenance et la sécurité des infrastructures réseaux. Les débouchés : administrateur systèmes et réseaux, technicien d’infrastructure, support systèmes et réseaux, etc.</p>
     </section>
-
     <section id="interets" class="card">
       <h2>🌟 Centres d’intérêt</h2>
       <ul>
@@ -174,49 +233,28 @@
         <li>Montage PC et bidouillage hardware</li>
         <li>Veille technologique (nouvelles tendances IT, cloud, IA)</li>
         <li>Musique</li>
-        <li>Jeux vidéo </li>
+        <li>Jeux vidéo</li>
       </ul>
     </section>
-
     <section id="contact" class="card">
       <h2>📬 Contact</h2>
       <p>Mail : <a href="mailto:lucas.salon@example.com">lucas.salon@example.com</a></p>
       <p>Téléphone : [06 XX XX XX XX]</p>
-      <p>LinkedIn : <a href="#">[Ton LinkedIn]</a></p>
+      <p>LinkedIn : <a href="file:///C:/Users/lucas.salon/Documents/Nouveau%20dossier/portfolio/index.html#">[Ton LinkedIn]</a></p>
       <form id="contactForm" onsubmit="sendMail(event)">
-        <input type="text" name="name" placeholder="Nom" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <textarea name="message" placeholder="Message" required></textarea>
+        <input type="text" name="name" placeholder="Nom" required="">
+        <input type="email" name="email" placeholder="Email" required="">
+        <textarea name="message" placeholder="Message" required=""></textarea>
         <button type="submit" class="btn">Envoyer</button>
       </form>
     </section>
-
-    <section id="projects" class="card" style="background:linear-gradient(120deg,#1a1333cc 60%,#2d1a4dcc 100%);box-shadow:0 4px 32px #a259f71a,0 1.5px 0 #a259f7a0 inset;border-radius:1.5em;padding:2.5em 2em 2em 2em;margin-top:2.5em;">
-      <h2 style="color:var(--accent);font-size:2em;margin-bottom:1em;letter-spacing:1px;text-align:center;text-shadow:0 2px 8px #a259f733;">🚀 Projets</h2>
-      <p style="text-align:center;color:#cfcbe6;font-size:1.1em;margin-bottom:2em;">Voici quelques projets réalisés durant ma formation ou à titre personnel. (Section à compléter)</p>
-      <div style="display:flex;flex-wrap:wrap;gap:2em;justify-content:center;">
-        <div style="background:rgba(30,20,50,0.85);border-radius:1em;padding:1.5em 1.2em;min-width:220px;max-width:320px;box-shadow:0 2px 16px #a259f71a;backdrop-filter:blur(2px);border:1.5px solid #a259f733;">
-          <h3 style="color:var(--accent);font-size:1.15em;margin-bottom:.5em;">Projet 1</h3>
-          <p style="color:#e0def7;">[Description ou titre du projet]</p>
-        </div>
-        <div style="background:rgba(30,20,50,0.85);border-radius:1em;padding:1.5em 1.2em;min-width:220px;max-width:320px;box-shadow:0 2px 16px #a259f71a;backdrop-filter:blur(2px);border:1.5px solid #a259f733;">
-          <h3 style="color:var(--accent);font-size:1.15em;margin-bottom:.5em;">Projet 2</h3>
-          <p style="color:#e0def7;">[Description ou titre du projet]</p>
-        </div>
-        <div style="background:rgba(30,20,50,0.85);border-radius:1em;padding:1.5em 1.2em;min-width:220px;max-width:320px;box-shadow:0 2px 16px #a259f71a;backdrop-filter:blur(2px);border:1.5px solid #a259f733;">
-          <h3 style="color:var(--accent);font-size:1.15em;margin-bottom:.5em;">Projet 3</h3>
-          <p style="color:#e0def7;">[Description ou titre du projet]</p>
-        </div>
-      </div>
-    </section>
   </main>
-
   <footer class="footer">
     <div class="container">
       <p>© <span id="year"></span> Lucas Salon — Étudiant BTS SIO</p>
     </div>
   </footer>
+  <script src="./oeoeo_files/script.js"></script>
 
-  <script src="script.js"></script>
-</body>
-</html>
+
+</body></html>
